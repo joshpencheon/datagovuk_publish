@@ -11,7 +11,7 @@ class Dataset < ApplicationRecord
   index_name ENV['ES_INDEX'] || "datasets-#{Rails.env}"
   document_type "dataset"
 
-  after_initialize :set_uuid
+  attribute :uuid, :string, default: -> { SecureRandom.uuid }
 
   before_save :set_name
   before_save :set_short_id
@@ -111,12 +111,6 @@ class Dataset < ApplicationRecord
       result = self.valid?
       self.status = "draft"
       return result
-    end
-  end
-
-  def set_uuid
-    if self.uuid.blank?
-      self.uuid = SecureRandom.uuid
     end
   end
 
