@@ -1,0 +1,37 @@
+version: '3'
+
+volumes:
+  publish_db_data:
+
+services:
+  publish_db:
+    image: postgres
+    volumes:
+      - publish_db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=rails
+      - POSTGRES_PASSWORD=password
+  publish_web:
+    build: .
+    command: bash -c "bin/rails db:setup && rm -f tmp/pids/server.pid && bin/rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/datagovuk_publish
+    ports:
+      - "3000:3000"
+    links:
+      - publish_db
+      - publish_redis
+      - publish_elasticsearch
+    environment:
+      - DATABASE_HOST=publish_db
+      - DATABASE_USER=rails
+      - DATABASE_PASSWORD=password
+      - ES_HOST=http://publish_elasticsearch:9200
+
+  publish_elasticsearch:
+    image: elasticsearch:7.3.1
+    environment:
+      - discovery.type=single-node
+
+  publish_redis:
+    image: redis:latest
