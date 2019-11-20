@@ -54,5 +54,5 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.ckan_v26_base_url = "http://ckan:5000"
+  config.ckan_v26_base_url = "http://ckan"
 end
