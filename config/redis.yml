@@ -4,7 +4,7 @@ default: &default
 development:
   <<: *default
   namespace: development
-  host: redis
+  host: gov_redis
   port: 6379
 
 test:
