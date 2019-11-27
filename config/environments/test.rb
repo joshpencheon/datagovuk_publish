@@ -50,5 +50,5 @@ Rails.application.configure do
     end
   end)
 
-  config.ckan_v26_base_url = "http://ckan"
+  config.ckan_v26_base_url = "http://gov_ckan"
 end
